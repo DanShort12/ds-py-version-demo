@@ -7,6 +7,13 @@ import sys
 
 
 def get_version(release_override="0.0.1"):
+    def get_last_version_root(last_version):
+        if ".post" in last_version or ".dev" in last_version:
+            last_version_root = ".".join(last_version.split(".")[:-1])
+        else:
+            last_version_root = last_version
+        return last_version_root
+    
     cwd = os.path.dirname(os.path.realpath(__file__))
     git_version = subprocess.check_output(
         ["git", "describe", "--always", "--tags"], stderr=None, cwd=cwd
@@ -26,10 +33,7 @@ def get_version(release_override="0.0.1"):
         if response.status_code == 200:
             # Response from TestPyPI was successful - get latest version and increment
             last_version = json.loads(response.content)["info"]["version"]
-            if ".post" in last_version or ".dev" in last_version:
-                last_version_root = ".".join(last_version.split(".")[:-1])
-            else:
-                last_version_root = last_version
+            last_version_root = get_last_version_root(last_version)
 
             if last_version_root == version_root:
                 # We're still on the same released version, so increment the 'post'
@@ -47,10 +51,7 @@ def get_version(release_override="0.0.1"):
                 if response.status_code == 200:
                     # Response from PyPI was successful - get dev version and increment
                     last_version = json.loads(response.content)["info"]["version"]
-                    if ".post" in last_version or ".dev" in last_version:
-                        last_version_root = ".".join(last_version.split(".")[:-1])
-                    else:
-                        last_version_root = last_version
+                    last_version_root = get_last_version_root(last_version)
 
                     if last_version_root == version_root:
                         if "dev" in last_version:
