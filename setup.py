@@ -26,7 +26,10 @@ def get_version(release_override="0.0.1"):
         if response.status_code == 200:
             # Response from TestPyPI was successful - get latest version and increment
             last_version = json.loads(response.content)["info"]["version"]
-            last_version_root = ".".join(last_version.split(".")[:-1])
+            if ".post" in last_version or ".dev" in last_version:
+                last_version_root = ".".join(last_version.split(".")[:-1])
+            else:
+                last_version_root = last_version
 
             if last_version_root == version_root:
                 # We're still on the same released version, so increment the 'post'
@@ -44,7 +47,10 @@ def get_version(release_override="0.0.1"):
                 if response.status_code == 200:
                     # Response from PyPI was successful - get dev version and increment
                     last_version = json.loads(response.content)["info"]["version"]
-                    last_version_root = ".".join(last_version.split(".")[:-1])
+                    if ".post" in last_version or ".dev" in last_version:
+                        last_version_root = ".".join(last_version.split(".")[:-1])
+                    else:
+                        last_version_root = last_version
 
                     if last_version_root == version_root:
                         if "dev" in last_version:
