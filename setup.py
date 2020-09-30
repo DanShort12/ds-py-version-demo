@@ -80,7 +80,7 @@ setuptools.setup(
     package_dir={"": "src"},
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI APPROVED :: GNU GENERAL PUBLIC LICENSE V3 (GPLV3)",
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Operating System :: OS Independent",
     ],
 )
