@@ -75,7 +75,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ds_py_version_demo",
-    version=get_version("0.0.6"),
+    version=get_version(),
     author="Dan Short",
     author_email="dan.short@ukaea.uk",
     description="Example of getting versions from PyPI and git",
